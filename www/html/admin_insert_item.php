@@ -17,6 +17,11 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
+$token = get_post('token');
+if (is_valid_csrf_token($token) === false){
+  set_error('不正なアクセスです。');
+  redirect_to(LOGIN_URL);
+}
 
 $name = get_post('name');
 $price = get_post('price');
