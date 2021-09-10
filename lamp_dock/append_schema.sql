@@ -10,6 +10,7 @@ CREATE TABLE `orders` (
 
 --購入詳細画面
 
+
 CREATE TABLE `order_details`(
     `order_id` int(11) NOT NULL,
     `item_id` int(11) NOT NULL,
