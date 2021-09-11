@@ -20,6 +20,7 @@
       <div class="form-group">
         <label for="password">パスワード: </label>
         <input type="password" name="password" id="password" class="form-control">
+        <input type="hidden" name= "token" value="<?php print h($token); ?>">
       </div>
       <input type="submit" value="ログイン" class="btn btn-primary">
     </form>
