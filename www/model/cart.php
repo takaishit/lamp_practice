@@ -101,22 +101,53 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql,[$cart_id]);
 }
 
-function purchase_carts($db, $carts){
-  if(validate_cart_purchase($carts) === false){
-    return false;
-  }
-  foreach($carts as $cart){
-    if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
-        $cart['stock'] - $cart['amount']
-      ) === false){
-      set_error($cart['name'] . 'の購入に失敗しました。');
+ function purchase_carts($db, $carts){
+    if(validate_cart_purchase($carts) === false){
+      return false;
     }
-  }
-  
-  delete_user_carts($db, $carts[0]['user_id']);
-}
+
+// //     //トランザクション開始
+   $db->beginTransaction();
+   try{
+ //オーダーズテーブル更新
+     //foreach($carts as $cart){
+    if(insert_order(
+        $db,
+        $carts[0]['user_id']
+      ) === false){
+      throw new Exception();
+      }
+    $order_id = $db->lastInsertid();
+//   　 //在庫更新
+    foreach($carts as $cart){
+      if(update_item_stock(
+          $db, 
+          $cart['item_id'], 
+          $cart['stock'] - $cart['amount']
+        ) === false){
+        throw new Exception();
+      }
+     //}
+//   　//オーダーディテイルず更新
+    //foreach($carts as $cart){
+      if(insert_order_detail(
+        $db,
+        $order_id,
+        $cart['name'],
+        $cart['price'],
+        $cart['amount']
+      ) === false){
+       throw new Exception();
+      }
+    }
+     $db->commit(); 
+    }catch(PDOException $e){
+      set_error('データ更新に失敗しました。');
+      $db->rollback();
+    }
+    
+    delete_user_carts($db, $carts[0]['user_id']);
+ }
 
 function delete_user_carts($db, $user_id){
   $sql = "
