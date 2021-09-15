@@ -206,3 +206,29 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+function insert_order($db, $user_id){
+  $sql = "
+    INSERT INTO
+      orders(
+        user_id
+      )
+    VALUES(?);
+  ";
+
+  return execute_query($db, $sql,[$user_id]);
+}
+
+function insert_order_detail($db, $order_id,$name,$price,$amount){
+  $sql = "
+    INSERT INTO
+      order_details(
+        order_id,
+        name,
+        price,
+        amount
+      )
+    VALUES(?,?,?,?);
+  ";
+
+  return execute_query($db, $sql,[$order_id,$name,$price,$amount]);
+}
