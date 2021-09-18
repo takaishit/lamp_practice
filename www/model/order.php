@@ -41,4 +41,18 @@ function get_order($db, $user_id){
     ";
     return fetch_all_query($db, $sql,[$order_id]);
   }
+  function get_order_ranking($db){
+    $sql = "
+      SELECT
+        order_details.name,
+        SUM(amount) AS subtotal
+      FROM
+        order_details
+      GROUP BY
+        order_details.name ASC
+      LIMIY
+        3
+    ";
+    return fetch_all_query($db, $sql);
+  }
 ?>

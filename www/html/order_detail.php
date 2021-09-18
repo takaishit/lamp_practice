@@ -18,8 +18,7 @@ $user = get_login_user($db);
 
 $orders = get_order($db, $user['user_id']);
 $order = get_post('id');
-var_dump($order);
-$details = get_order_detail($db, $order);
 
+$details = get_order_detail($db, $order);
 
 include_once VIEW_PATH . 'order_detail_view.php';
