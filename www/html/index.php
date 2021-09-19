@@ -17,6 +17,4 @@ $user = get_login_user($db);
 $items = get_open_items($db);
 $ranking = get_order_ranking($db);
 
-var_dump($ranking);
-
 include_once VIEW_PATH . 'index_view.php';

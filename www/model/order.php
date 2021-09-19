@@ -18,7 +18,8 @@ function get_order($db, $user_id){
       WHERE
         orders.user_id = ?
       GROUP BY
-        order_id DESC;
+        order_id DESC,
+
     ";
     return fetch_all_query($db, $sql,[$user_id]);
   }
@@ -49,8 +50,10 @@ function get_order($db, $user_id){
       FROM
         order_details
       GROUP BY
-        order_details.name ASC
-      LIMIY
+        order_details.name
+      ORDER BY
+        subtotal DESC
+      LIMIT
         3
     ";
     return fetch_all_query($db, $sql);
