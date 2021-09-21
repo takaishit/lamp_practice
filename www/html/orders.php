@@ -15,8 +15,11 @@ $token=get_csrf_token();
 
 $db = get_db_connect();
 $user = get_login_user($db);
+if(is_admin($user) === true){
+  $orders = get_all_orders($db);
+}else{
 
-$orders = get_order($db, $user['user_id']);
-
+  $orders = get_order($db, $user['user_id']);
+}
 
 include_once VIEW_PATH . 'order_view.php';

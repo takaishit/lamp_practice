@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
-  <title>購入履歴</title>
+  <title>購入明細</title>
   <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'admin.css'); ?>">
 </head>
 <body>
@@ -11,7 +11,7 @@
   ?>
 
   <div class="container">
-    <h1>購入履歴画面</h1>
+    <h1>購入明細画面</h1>
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
