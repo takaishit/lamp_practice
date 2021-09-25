@@ -13,9 +13,16 @@
   <div class="container">
     <h1>商品一覧</h1>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
-
+    <form action="index.php" method="GET">
+    <div class="row">
+        <select name="sort">
+          <option value="new">新着順</option>
+          <option value="cheap">価格の安い順</option>
+          <option value="expensive">価格の高い順</option>
+        </select>
+        <input type="submit" name = "sort_button" value="検索">
+    </form>
     <div class="card-deck">
-      <div class="row">
       <?php foreach($items as $item){ ?>
         <div class="col-6 item">
           <div class="card h-100 text-center">
