@@ -61,7 +61,7 @@
            <?php if($i == $page){ ?>
               <span class="now_page_number" name="page" value="<?php echo h($i) ?>"><?php echo h($i); ?></spna>
            <?php }else{ ?>
-              <a href ="?page=<?php echo $i;echo h($param) ?>"class="page_number" name="page" value="<?php echo $i ?>"><?php echo h($i); ?></a>     
+              <a href ="?page=<?php echo h($i);echo h($param) ?>"class="page_number" name="page" value="<?php echo h($i) ?>"><?php echo h($i); ?></a>     
               <?php } ?>
           <?php } ?>
       <?php } ?>
