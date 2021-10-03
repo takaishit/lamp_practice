@@ -21,8 +21,7 @@ function get_item($db, $item_id){
 
   return fetch_query($db, $sql,[$item_id]);
 }
-
-function get_items_new($db, $is_open = false){
+function get_items($db, $is_open = false){
   $sql = '
     SELECT
       item_id, 
@@ -37,14 +36,11 @@ function get_items_new($db, $is_open = false){
   if($is_open === true){
     $sql .= '
       WHERE status = 1
-    ORDER BY
-      created ASC
     ';
   }
-
   return fetch_all_query($db, $sql);
 }
-function get_items_cheap($db, $is_open = false){
+function get_items_new($db, $is_open = false ,$offset, $limit){
   $sql = '
     SELECT
       item_id, 
@@ -59,14 +55,16 @@ function get_items_cheap($db, $is_open = false){
   if($is_open === true){
     $sql .= '
       WHERE status = 1
-    ORDER BY
-      price ASC
     ';
   }
-
-  return fetch_all_query($db, $sql);
+ $sql .='
+    ORDER BY
+    created DESC
+    LIMIT ?,?
+  ';
+  return fetch_all_query($db, $sql,[$offset,$limit]);
 }
-function get_items_expensive($db, $is_open = false){
+function get_items_cheap($db, $is_open = false, $offset, $limit){
   $sql = '
     SELECT
       item_id, 
@@ -81,24 +79,53 @@ function get_items_expensive($db, $is_open = false){
   if($is_open === true){
     $sql .= '
       WHERE status = 1
-    ORDER BY
-      price DESC
     ';
   }
-
-  return fetch_all_query($db, $sql);
+  $sql .='
+    ORDER BY
+    price ASC
+    LIMIT ?,?
+  ';
+  return fetch_all_query($db, $sql,[$offset,$limit]);
 }
-function get_all_items_new($db){
-  return get_items_new($db);
+function get_items_expensive($db, $is_open = false, $offset, $limit){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+  ';
+  if($is_open === true){
+    $sql .= '
+      WHERE status = 1
+    ';
+  }
+  $sql .='
+    ORDER BY
+    price DESC
+    LIMIT ?,?
+  ';
+  return fetch_all_query($db, $sql,[$offset,$limit]);
 }
-function get_open_items_new($db){
-  return get_items_new($db, true);
+function get_all_items_new($db,$offset,$limit){
+  return get_items_new($db, false,$offset,$limit);
 }
-function get_open_items_cheap($db){
-  return get_items_cheap($db, true);
+function get_open_items($db){
+  return get_items($db, true);
 }
-function get_open_items_expensive($db){
-  return get_items_expensive($db, true);
+function get_open_items_new($db,$offset,$limit){
+  return get_items_new($db, true,$offset,$limit);
+}
+function get_open_items_cheap($db,$offset,$limit){
+  return get_items_cheap($db, true,$offset,$limit);
+}
+function get_open_items_expensive($db,$offset,$limit){
+  return get_items_expensive($db, true,$offset,$limit);
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){

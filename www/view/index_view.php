@@ -49,6 +49,32 @@
       <?php } ?>
       </div>
     </div>
+    <form action="index.php" method="GET">
+    <div class = "pageination">
+      <?php if($page >= 2){ ?>
+        <a href="index.php?page=<?php echo h($page -1);echo h($param) ?>" class="page_feed">&laquo;</a>
+      <?php }else{ ?>
+        <span class="first_last_page">&laquo;</span>
+      <?php } ?>
+      <?php for($i = 1; $i <= $max_page; $i++){ ?>
+        <?php if($i >= $page - $range && $i <= $page + $range){ ?>
+           <?php if($i == $page){ ?>
+              <span class="now_page_number" name="page" value="<?php echo h($i) ?>"><?php echo h($i); ?></spna>
+           <?php }else{ ?>
+              <a href ="?page=<?php echo h($i);echo h($param) ?>"class="page_number" name="page" value="<?php echo h($i) ?>"><?php echo h($i); ?></a>     
+              <?php } ?>
+          <?php } ?>
+      <?php } ?>
+      <?php if($page < $max_page){ ?>
+          <a href="index.php?page=<?php echo h($page + 1);echo h($param) ?>" class="page_feed">&raquo;</a>
+      <?php }else { ?>
+          <span class="first_last_page" name="page">&raquo;</span>
+      <?php } ?>     
+      </div> 
+      </form> 
+      <div>
+        <p><?php echo h($item_count)?>件中<?php echo h($offset +1)?>-<?php echo h($offset + $items_page_count)?>件目の商品</p>
+      </div>  
     <table class="table table-bordered text-center">
       <h2>人気ランキング</h2>
         <thead class="thead-light">
